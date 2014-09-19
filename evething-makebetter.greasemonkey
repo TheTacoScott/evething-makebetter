@@ -3,25 +3,32 @@
 // @version    0.2
 // @description  Make Queue more useful
 // @require    http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
-// @include      https://YOUREVETHINGURL/*
+// @include      https://evethingurl/
 // @copyright  2012+, You
 // ==/UserScript==
 
 $taco = $("div.col-sm-12:contains('Skill Points')").html();
 var arr = $taco.match(/([0-9]{1,3}).*ISK/g);
+//$("div").css("transition","all 0.25s");
 
+$("div.home-notifications").slideUp(100);
+$("div.home-character").hover(function() { $(this).find(".home-notifications").stop().slideDown(100); }, function() { $(this).find(".home-notifications").stop().slideUp(250); });
+
+$("div.col-sm-2").css("padding-left","2px").css("padding-right","2px");
+$("div.well").css("margin-bottom","5px");
+$("hr.margin-half-top").css("margin-bottom","5px");
 $("div.home-character").each(function() {
     $newtaco = $(this).html();
     var arr2 = $newtaco.match(/([0-9]{1,3}).*ISK/g);
     $newisk = (parseFloat(arr2[0].replace(" ISK","").replace(/,/g,"")) / 1000000).toFixed(1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " M ISK";
-    $(this).find("span:contains('ISK')").text($newisk);
+    $(this).find("span:contains('ISK')").text($newisk).fadeOut(100,function() { $(this).fadeIn(250); });
     console.log($newisk);
 });
 
 
 netWorth = parseFloat(arr[0].replace(" ISK","").replace(/,/g,"")) + parseFloat(arr[1].replace(" ISK","").replace(/,/g,""));
-netWorthString = netWorth.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ISK";
-$("<span class='divider'>/</span> <strong>Net Worth:</strong> <span>" + netWorthString + "</span>").insertBefore( $("div.col-sm-12:contains('Skill Points') span.pull-right") );
+netWorthString = netWorth.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ISK";
+$("<span class='divider'>/</span> <strong>Net Worth:</strong> <span>" + netWorthString + "</span>").insertBefore( $("div.col-sm-12:contains('Skill Points') span.pull-right"));
 
 $("div.home-character").find("span.skill-hover").parent().find("em:contains('@')").each(function()
                                                                                         {
@@ -43,8 +50,8 @@ $("div.home-character").find("span.skill-hover").parent().find("em:contains('@')
                                                                                                 var qdone = new Date(Date.UTC($matches[1],$matches[2]-1,$matches[3],$matches[4],$matches[5],$matches[6]));
                                                                                                 var qrdy =  new Date(Date.UTC($matches[1],$matches[2]-1,$matches[3]-1,$matches[4],$matches[5],$matches[6]));
                                                                                                 
-                                                                                                $("<em class='small'>Done @ " + qdone.toDateString() + " - " + qdone.toLocaleTimeString() + " " +  "</em>").insertAfter($divid);
-                                                                                                $("<em class='small'>Ready @ " + qrdy.toDateString() + " - " + qrdy.toLocaleTimeString() + "</em><br>").insertAfter($divid);
+                                                                                                $("<em class='small'>Done @ " + qdone.toDateString() + " - " + qdone.toLocaleTimeString() + " " +  "</em>").insertAfter($divid).fadeOut(0).fadeIn(250);
+                                                                                                $("<em class='small'>Ready @ " + qrdy.toDateString() + " - " + qrdy.toLocaleTimeString() + "</em><br>").insertAfter($divid).fadeOut(0).fadeIn(250);
                                                                                                 
                                                                                             });
                                                                                             
